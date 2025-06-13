@@ -237,6 +237,7 @@
         };
         canvas.addEventListener("touchstart", e => {
             e.preventDefault();
+            e.stopPropagation();
             const { x, y } = getRelativePos(e, true);
             mouseIsPressed = true;
             strokes.push([[x], [y]]);
@@ -245,11 +246,13 @@
         }, { passive: false });
         canvas.addEventListener("touchend", e => {
             e.preventDefault();
+            e.stopPropagation();
             mouseIsPressed = false;
             mouseReleased = true;
         }, { passive: false });
         canvas.addEventListener("touchmove", e => {
             e.preventDefault();
+            e.stopPropagation();
             const { x, y } = getRelativePos(e, true);
             mouseX = x;
             mouseY = y;
