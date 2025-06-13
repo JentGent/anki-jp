@@ -154,6 +154,12 @@
     if("{{Vocabulary-Kana}}" === "{{Vocabulary-Kanji}}") {
         const kana = document.getElementById("kana");
         kana.textContent = fromKana("{{Vocabulary-Kana}}").toLowerCase();
+        if(katakanaMonographsRegex.test("{{Vocabulary-Kana}}") && !hiraganaMonographsRegex.test("{{Vocabulary-Kana}}")) {
+            kana.textContent += " (katakana)";
+        }
+        else if(hiraganaMonographsRegex.test("{{Vocabulary-Kana}}") && !katakanaMonographsRegex.test("{{Vocabulary-Kana}}")) {
+            kana.textContent += " (hiragana)";
+        }
     }
 </script>
 
