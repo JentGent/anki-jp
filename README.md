@@ -1,2 +1,2 @@
 # anki-jp
-cards from Core 2000
+Card types for Anki kanji study

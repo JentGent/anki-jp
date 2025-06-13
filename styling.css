@@ -1,0 +1,56 @@
+@font-face { font-family: stroke; src: url('_stroke.ttf'); }
+@font-face { font-family: textbook; src: url('_HGSKyokashotai.ttf'); }
+@font-face {
+   font-family: 'notosans';
+   font-style: normal;
+   font-weight: 400;
+   src: url(http://fonts.gstatic.com/ea/notosansjapanese/v6/NotoSansJP-Regular.otf) format('opentype');
+ }
+@font-face {
+   font-family: 'localnoto';
+   font-style: normal;
+   font-weight: 400;
+   src: url('_NotoSansJP-Medium.otf') format('opentype');
+ }
+
+.card {
+ font-family:  'localnoto', 'notosans', 'ヒラギノ明朝 ProN', 'Hiragino Mincho Pro', 'serif';
+ font-size: 25px;
+ text-align: center;
+ color: White;
+ background-color: Black;
+}
+
+img {
+ max-height: 150px;
+ margin: 10px;
+}
+
+div {
+ padding-top:5px;
+ padding-bottom:5px;
+}
+
+a {
+ color: turquoise;
+ margin: 5px;
+}
+
+#kanjiCanvas {
+    border: 1px solid black;
+}
+
+.ios-only { display: none; }
+.mac-only { display: none; }
+
+.mobile .ios-only { display: inline; }
+.mac .mac-only { display: inline; }
+
+.stroke { font-family: "stroke"; }
+.japanese { font-family: "textbook"; }
+
+.mac { font-family: 'ヒラギノ明朝 ProN', 'Hiragino Mincho Pro', 'serif'; }
+.mac .stroke { font-family: stroke; }
+.mac .japanese { font-family: textbook; }
+
+.mobile { font-family: textbook, 'Hiragino Mincho Pro', 'serif'; }

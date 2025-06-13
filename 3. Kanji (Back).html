@@ -1,0 +1,87 @@
+<div>{{Vocabulary-Audio}}{{Sentence-Audio}}</div>
+<div class="stroke" style="font-size:180px;">{{furigana:Vocabulary-Furigana}}</div>
+
+<div style="font-size: 14px; ">{{Vocabulary-Pos}}</div>
+
+<canvas id="kanjiCanvas" width="800" height="200"></canvas><br/>
+<button onclick="undo()">Undo</button><button onclick="erase()">Clear</button>
+<script>
+    var kanjiCanvasAnimationFrame;
+    if(kanjiCanvasAnimationFrame) window.cancelAnimationFrame(kanjiCanvasAnimationFrame);
+    (function() {
+        const canvas = document.getElementById("kanjiCanvas");
+        const ctx = canvas.getContext("2d");
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "white";
+        ctx.lineCap = "round";
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for(const stroke of strokes) {
+            const xs = stroke[0], ys = stroke[1], length = xs.length;
+            for(let i = 1; i < length; i += 1) {
+                ctx.beginPath();
+                ctx.moveTo(xs[i - 1], ys[i - 1]);
+                ctx.lineTo(xs[i], ys[i]);
+                ctx.stroke();
+            }
+        }
+
+        let mouseIsPressed = false, mouseX = mouseY = xPoint = yPoint = 0;
+        canvas.onkeydown = e => { if(e.ctrlKey && e.key === "z") undo(); };
+        canvas.onmousedown = e => {
+            if(e.button === 0) {
+                const bounds = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - bounds.left,
+                      y = e.clientY - bounds.top;
+                mouseIsPressed = true;
+                strokes.push([[x], [y]]);
+                xPoint = x;
+                yPoint = y;
+            }
+        };
+        canvas.onmouseup = e => { if(e.button === 0) mouseIsPressed = false; };
+        canvas.onmousemove = e => {
+            const bounds = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX - bounds.left,
+                    y = e.clientY - bounds.top;
+            mouseX = x;
+            mouseY = y;
+        };
+        let ptime = 0;
+        function draw(time) {
+            kanjiCanvasAnimationFrame = window.requestAnimationFrame(draw);
+            const dt = time - ptime;
+            ptime = time;
+            if(strokes.length > 0) {
+                const currentStroke = strokes[strokes.length - 1], lastStroke = currentStroke[0].length - 1, xLast = currentStroke[0][lastStroke], yLast = currentStroke[1][lastStroke];
+                if(mouseIsPressed) {
+                    if(xLast !== xPoint || yLast !== yPoint) {
+                        currentStroke[0].push(xPoint);
+                        currentStroke[1].push(yPoint);
+                        ctx.beginPath();
+                        ctx.moveTo(xLast, yLast);
+                        ctx.lineTo(xPoint, yPoint);
+                        ctx.stroke();
+                    }
+                    const SMOOTHING = 0.1;
+                    xPoint += (mouseX - xPoint) * (1 - SMOOTHING) / (1 + dt * SMOOTHING);
+                    yPoint += (mouseY - yPoint) * (1 - SMOOTHING) / (1 + dt * SMOOTHING);
+                }
+            }
+        }
+        kanjiCanvasAnimationFrame = window.requestAnimationFrame(draw);
+    })();
+</script>
+
+<div style="font-size: 30px; ">{{Vocabulary-English}}</div>
+ 
+<hr id=answer>
+
+<div class="japanese" style="font-size: 50px; ">{{furigana:Reading}}</div>
+<div style="font-size: 20px; ">{{Sentence-English}}</div>
+<!---->
+
+<div style="font-size: 14pt;">
+<a class="japanese ios-only" href="mkdaijirin://jp.monokakido.DAIJIRIN/search?text={{Vocabulary-Kanji}}&srcname=Anki&src=anki://">大辞林</a><a class="japanese ios-only" href="mkwisdom2://jp.monokakido.WISDOM2/search?text={{Vocabulary-Kanji}}&srcname=Anki&src=anki://">ウィズダム</a><a class="japanese" href="http://dictionary.goo.ne.jp/srch/thsrs/{{Vocabulary-Kanji}}/m0u/">類語辞典</a><a class="ios-only" href="ebpocket://search?text={{Vocabulary-Kanji}}#anki://">EBPocket</a><a href="http://jisho.org/search/{{Vocabulary-Kanji}}">jisho</a><a href="http://ejje.weblio.jp/content/{{Vocabulary-Kanji}}">weblio</a>
+<br/>
+<div style="font-size: 10pt;">{{Frequency}}</div>
