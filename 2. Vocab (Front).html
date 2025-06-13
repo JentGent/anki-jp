@@ -1,7 +1,19 @@
+<!-- Fields used in this file: {{Vocabulary-Kanji}}, {{Vocabulary-Pos}}, {{Vocabulary-Kana}}, {{Expression}} -->
+
 <div class="japanese" style="font-size:60px;">{{Vocabulary-Kanji}}</div>
 
 <div style="font-size: 16px; ">{{Vocabulary-Pos}}</div>
+
+<button id="reading" onclick="toggleReading()" class="japanese" style="font-size: 30px; ">See reading</button>
+<script>
+    function toggleReading() {
+        const reading = document.getElementById("reading");
+        if(reading.textContent === "See reading") {
+            reading.textContent = "{{Vocabulary-Kana}}";
+        } else {
+            reading.textContent = "See reading";
+        }
+    }
+</script>
 <br/><br/><br/><br/><br/>
 <div id="example-sentence" class="japanese" style="font-size: 40px; ">{{Expression}}</div>
-
-<div class="japanese" style="font-size: 20px; ">{{Vocabulary-Kana}}</div>
